@@ -1,0 +1,72 @@
+{
+  "name": "t3code-api",
+  "version": "0.1.0",
+  "description": "Pair with and connect to existing T3 Code servers from Node.js.",
+  "keywords": [
+    "t3-code",
+    "api",
+    "client",
+    "pairing",
+    "websocket"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=22.16"
+  },
+  "scripts": {
+    "build": "npm run clean && tsc -p tsconfig.build.json",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build && npm run check:package",
+    "check:package": "publint && attw --pack . --profile esm-only",
+    "clean": "node --eval \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings 0",
+    "prepack": "npm run build",
+    "test": "vitest run",
+    "test:integration:docker": "node test/integration/docker-pairing.mjs",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xtlt/T3CodeAPI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0xtlt/T3CodeAPI/issues"
+  },
+  "homepage": "https://github.com/0xtlt/T3CodeAPI#readme",
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "0.18.5",
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.2.0",
+    "@vitest/coverage-v8": "4.1.10",
+    "eslint": "10.8.1",
+    "eslint-plugin-tsdoc": "0.5.2",
+    "globals": "17.9.0",
+    "prettier": "3.9.6",
+    "publint": "0.3.23",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.66.0",
+    "vitest": "4.1.10"
+  }
+}

@@ -1,0 +1,31 @@
+name: t3code-api
+
+services:
+  t3code:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        OPENCODE_VERSION: "1.18.15"
+        T3CODE_VERSION: "0.0.32"
+    image: t3code-api:0.1.0
+    init: true
+    ports:
+      - "127.0.0.1:3773:3773"
+    environment:
+      OPENROUTER_API_KEY_FILE: /run/secrets/openrouter_api_key
+      T3CODE_OPENROUTER_MODEL: openrouter/deepseek/deepseek-v4-flash-0731
+    secrets:
+      - openrouter_api_key
+    volumes:
+      - ./examples/tiny-task:/workspace
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 512
+    restart: "no"
+
+secrets:
+  openrouter_api_key:
+    file: ${OPENROUTER_API_KEY_FILE:-.secrets/openrouter_api_key}
